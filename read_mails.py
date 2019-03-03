@@ -1,6 +1,7 @@
 
 import pandas as pd
 
+# Read file from given textfile
 def read_file(file):
     f = open(file, 'r')
     mails = []
@@ -10,8 +11,9 @@ def read_file(file):
             mails.append(line)
     return mails
 
+# Read from report from hoopla
 def read_hoopla(file):
-    # Get the cols needed in the DataFrame
+    # Get the cols needed in the DataFrame, [name, email]
     df = pd.read_excel(file, usecols=[22, 30])
 
     mail_dict = {}
@@ -22,17 +24,5 @@ def read_hoopla(file):
         else:
             mail_dict[row[1]].append(row[0])
 
+    # Return the mails in a dictionary containing names and emails
     return mail_dict
-
-
-mail_dict = read_hoopla('hoopla.xls')
-for key, value in mail_dict.items():
-    if len(value) == 1:
-        names = value[0]
-        plural = "din billett"
-    else:
-        names = ", ".join(value[0:len(value) - 1]) + "og " + value[-1]
-        plural = "deres billetter"
-print(mail_dict)
-
-
