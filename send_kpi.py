@@ -1,16 +1,17 @@
 # coding=utf-8
 import smtplib
 
+import pandas as pd
+
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
 
-# from read_mails import read_hoopla
+from read_mails import read_hoopla
 
 
 def send_to_all(dict):
     for key, value in dict.items():
-        fromaddr = "martin.egeli@startntnu.no"
+        fromaddr = "mail@mail.no"
         msg = MIMEMultipart()
         msg['From'] = fromaddr
         msg['Subject'] = "Spørreundersøkelse StartIT"
@@ -34,21 +35,18 @@ def send_to_all(dict):
                 
                 <p>Vi sender derfor ut en spørreundersøkelse vi ønsker at du skal svare på, som kun tar 2-3 minutter</p>
                 
-                <p>Blant alle svar velger vi ut tre stykker som får en chromecast som premie! Dette er store sjanser</p>
+                <p>Blant besvarelsene vil vi trekke tre heldige vinnere som får en chromecast!</p>
                 
-                <a href='https://goo.gl/forms/LLukrGjTvv3dfkyo2'>Trykk her for link til spørreundersøkelse</a>
+                <a href='link'>Trykk her for link til spørreundersøkelse</a>
                 
                 <p>Vi håper å se deg til neste år også. Ha en fin dag videre! :) </p>
                 
-                <img src="cid:image1" />
+                <p>Med vennlig hilsen</p>
+                <p>StartIT-gjengen :) </p>
+                
             <body>
         <html>
         """.format(names, plural)
-
-        img = open('startit_img.jpg', 'rb').read()
-        msg_img = MIMEImage(img, 'jpg')
-        msg_img.add_header('Content-ID', '<image1>')
-        msg_img.add_header('Content-Disposition', 'inline', filename="startit_image.jpg")
 
         server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
         server.ehlo()
@@ -57,19 +55,29 @@ def send_to_all(dict):
         toaddr = key
         msg['To'] = key
         msg.attach(MIMEText(html, 'html'))
-        # msg.attach(msg_img)
         server.sendmail(fromaddr, toaddr, msg.as_string())
         server.quit()
+
+def read_hoopla(file):
+    # Get the cols needed in the DataFrame, [name, email]
+    df = pd.read_excel(file, usecols=[22, 30])
+
+    mail_dict = {}
+    # Iterate over the DataFrame and make a dictionary containing name and email
+    for idx, row in df.iterrows():
+        if row[1] not in mail_dict:
+            mail_dict[row[1]] = [row[0]]
+        else:
+            mail_dict[row[1]].append(row[0])
+
+    # Return the mails in a dictionary containing names and emails
+    return mail_dict
 
 # mail_dict = read_hoopla('hoopla.xls')
 
 
 test_dict = {
-    #'erling.olweus@startntnu.no': ['Erling'],
-    #'andreas.engebretsen@startntnu.no': ['Andreas'],
-    #'isabel.slorer@startntnu.no': ['Isabel'],
-    #'sanne.saetre@startntnu.no': ['Sanne'],
-    'martinegeli9@gmail.com': ['Martin']
+
 }
 
-send_to_all(test_dict)
+# send_to_all(mail_dict)

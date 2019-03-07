@@ -26,3 +26,21 @@ def read_hoopla(file):
 
     # Return the mails in a dictionary containing names and emails
     return mail_dict
+
+def read_starters(file):
+    # Get the cols needed in the DataFrame, [name, email]
+    df = pd.read_excel(file, usecols=[7, 19])
+
+    mail_dict = {}
+    # Iterate over the DataFrame and make a dictionary containing name and email
+    for idx, row in df.iterrows():
+        if row[1] not in mail_dict:
+            mail_dict[row[1]] = [row[0]]
+        else:
+            mail_dict[row[1]].append(row[0])
+
+    # Return the mails in a dictionary containing names and emails
+    return mail_dict
+
+start_mails = read_starters('hoopla_start.xls')
+print(start_mails)

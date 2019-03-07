@@ -5,6 +5,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 
+from read_mails import read_hoopla
 
 def send_to_all(dict):
     for key, value in dict.items():
@@ -39,9 +40,16 @@ def send_to_all(dict):
                     <li>Etterfest for de som ønsker det!</li>
                 </ul>
                 
-                <p>Under kvelden blir det mange konkurranser med mulighet til å vinne kule premier! Vi gleder oss til å se deg</p>
+                <p>Under kvelden blir det mange konkurranser med mulighet til å vinne kule premier! Vi gleder oss til å se deg.</p>
                 
                 <p>Om du ikke har mulighet til å delta, så ønsker vi at du svarer på denne mailen :) </p>
+                
+                <br>
+                <p>Med vennlig hilsen,</p>
+                <p>Martin Egeli</p>
+                <p>Prosjektleder StartIT</p>
+                
+                <br>
                 
                 <img src="cid:image1" style="width: 600px"/>
             <body>
@@ -64,17 +72,12 @@ def send_to_all(dict):
         server.sendmail(fromaddr, toaddr, msg.as_string())
         server.quit()
 
-#mail_dict = read_hoopla('hoopla.xls')
-
+# mail_dict = read_hoopla('hoopla.xls')
 
 test_dict = {
-    #'erling.olweus@startntnu.no': ['Erling'],
-    #'andreas.engebretsen@startntnu.no': ['Andreas'],
-    #'isabel.slorer@startntnu.no': ['Isabel'],
-    #'sanne.saetre@startntnu.no': ['Sanne'],
-    'martinegeli9@gmail.com': ['Martin']
+
 }
 
-send_to_all(test_dict)
+# send_to_all(mail_dict)
 
 
