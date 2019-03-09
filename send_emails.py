@@ -9,7 +9,7 @@ from read_mails import read_hoopla
 
 def send_to_all(dict):
     for key, value in dict.items():
-        fromaddr = "martin.egeli@startntnu.no"
+        fromaddr = "mail@mail.no"
         msg = MIMEMultipart()
         msg['From'] = fromaddr
         msg['Subject'] = "Confirmation av påmelding StartIT"
